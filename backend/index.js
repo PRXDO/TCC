@@ -1,6 +1,7 @@
 // 1. Importar as bibliotecas que acabamos de instalar
 const express = require('express');
 const verificarToken = require('./middleware/auth'); // Importa o middleware de autenticação
+const cors = require('cors');
 const { pool } = require('./config/database');
 
 // Importar as rotas
@@ -9,12 +10,18 @@ const itemRoutes = require('./routes/itens');
 const responsavelRoutes = require('./routes/responsaveis'); // 
 const salaRoutes = require('./routes/salas'); // 
 const equipamentoRoutes = require('./routes/equipamentos'); // 
+const chamadoRoutes = require('./routes/chamados'); // 
 
 // 2. Configurar o Express (nosso servidor)
 const app = express(); // Inicia o Express
 const port = 3001; // A porta que o backend vai "ouvir". Pode ser qualquer uma (ex: 3001)
 
+
+// --- CONFIGURAÇÕES DE MIDDLEWARE ---
+app.use(cors()); //
 app.use(express.json()); // Habilita o Express para entender requisições com corpo em JSON
+
+
 
 // 4. Criar uma rota de "teste"
 // Quando alguém acessar http://localhost:3001/ no navegador, responderemos:
@@ -68,6 +75,8 @@ app.use('/responsaveis', responsavelRoutes); //
 app.use('/salas', salaRoutes); // 
 
 app.use('/equipamentos', equipamentoRoutes); // 
+
+app.use('/chamados', chamadoRoutes);
 
 // 6. Iniciar o servidor
 app.listen(port, () => {
